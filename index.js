@@ -76,6 +76,15 @@ io.on("connection", (socket) => {
       socket.emit("error", "Something went wrong! redirecting to home!");
     }
   });
+
+  //On Private Message
+  socket.on("privateMsg",({msg, id})=>{
+    const sender = getActiveUser(socket.id);
+    const reciever = getActiveUser(id);
+    let decryptMsg = decrypt(msg);
+    socket.to(reciever.id).emit("message", formatMessage(sender.username, decryptMsg));
+  });
+
 });
 
 const PORT = process.env.PORT || 3000;

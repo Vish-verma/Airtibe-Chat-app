@@ -8,6 +8,7 @@ $(document).ready(() => {
   socket.on("roomUsers", ({ room, users }) => {
     $("#room-name").text(room);
     outputUsers(users);
+    outputPrivateOptions(users);
   });
 
   socket.on("error", (msg) => {
@@ -33,7 +34,16 @@ $(document).ready(() => {
     if (!msg) {
       return false;
     }
-    socket.emit("chatMessage", encrypt(msg));
+    
+    let userId = $("#active-user").val();
+    if(userId){
+        socket.emit("privateMsg", {
+            id: userId,
+            msg: encrypt(msg)
+        });
+    }else{
+        socket.emit("chatMessage", encrypt(msg));
+    }
     e.target.elements.msg.value = "";
     e.target.elements.msg.focus();
   });
@@ -64,6 +74,13 @@ $(document).ready(() => {
       </div>`;
     $(".chat-messages").append(div);
   };
-  
-});
 
+  let outputPrivateOptions = (users)=>{
+    let userList = users.map((user) => `<option value=${user.id}>${user.username}</option>`);
+    userList.unshift('<option value="">Channel</option>')
+    $('#active-user').empty();
+    setTimeout(() => {
+        $('#active-user').append(userList);
+    }, 500);
+  }
+});

@@ -246,3 +246,13 @@ i.fas.fa-paper-plane{
 		display: none;
 	}
 }
+
+.channel-option{
+	width:15%;
+	border-radius: 15px;
+	border: none;
+    font-size: 16px;
+    padding: 10px;
+    height: 40px;
+    outline: none;
+}
