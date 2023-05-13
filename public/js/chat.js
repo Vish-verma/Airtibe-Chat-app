@@ -34,15 +34,15 @@ $(document).ready(() => {
     if (!msg) {
       return false;
     }
-    
+
     let userId = $("#active-user").val();
-    if(userId){
-        socket.emit("privateMsg", {
-            id: userId,
-            msg: encrypt(msg)
-        });
-    }else{
-        socket.emit("chatMessage", encrypt(msg));
+    if (userId) {
+      socket.emit("privateMsg", {
+        id: userId,
+        msg: encrypt(msg),
+      });
+    } else {
+      socket.emit("chatMessage", encrypt(msg));
     }
     e.target.elements.msg.value = "";
     e.target.elements.msg.focus();
@@ -75,12 +75,14 @@ $(document).ready(() => {
     $(".chat-messages").append(div);
   };
 
-  let outputPrivateOptions = (users)=>{
-    let userList = users.map((user) => `<option value=${user.id}>${user.username}</option>`);
-    userList.unshift('<option value="">Channel</option>')
-    $('#active-user').empty();
+  let outputPrivateOptions = (users) => {
+    let userList = users.map(
+      (user) => `<option value=${user.id}>${user.username}</option>`
+    );
+    userList.unshift('<option value="">Channel</option>');
+    $("#active-user").empty();
     setTimeout(() => {
-        $('#active-user').append(userList);
+      $("#active-user").append(userList);
     }, 500);
-  }
+  };
 });

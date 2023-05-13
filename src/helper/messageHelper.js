@@ -12,7 +12,6 @@ function formatMessage(username, text) {
 }
 
 let encrypt = (msg)=>{
-    console.log("msg",msg, cryptoKey);
     return CryptoJS.AES.encrypt(msg, cryptoKey).toString();
 }
 let decrypt = (text)=>{
